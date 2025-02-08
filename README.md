@@ -1,6 +1,5 @@
 # 🚀 RAG System with DeepSeek | FAISS | BM25 | Knowledge Graph
 
-![RAG System Banner]([https://user-images.githubusercontent.com/example/banner.png](https://pureinsights.com/wp-content/webp-express/webp-images/uploads/2024/01/RAG-retrieval-augmented-generation-use-case-short-banner-image.jpg.webp))  
 
 ## 📌 Project Overview  
 This project implements a **Retrieval-Augmented Generation (RAG)** system leveraging **DeepSeek**, FAISS, BM25, and a knowledge graph to enhance document-based question answering.  
