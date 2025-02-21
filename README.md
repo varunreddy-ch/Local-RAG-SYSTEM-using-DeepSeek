@@ -2,11 +2,11 @@
 
 
 ## 📌 Project Overview  
-This project implements a **Retrieval-Augmented Generation (RAG)** system leveraging **DeepSeek**, FAISS, BM25, and a knowledge graph to enhance document-based question answering.  
+This project implements a **Retrieval-Augmented Generation (RAG)** system leveraging **DeepSeek**,**WhisperX** FAISS, BM25, and a knowledge graph to enhance document-based question answering.  
 
 ✅  **Hybrid retrieval system** that combines **vector search (FAISS)** and **sparse retrieval (BM25)**  
 ✅  **Knowledge graph integration** to extract meaningful entity relationships  
-✅  **DeepSeek for hypothetical document generation** to enrich query context  
+✅  **DeepSeek for hypothetical document generation** to enrich query context \
 ✅  **Cross-Encoder Reranking** for improving retrieval accuracy  
 ✅  **Interactive Streamlit UI** for seamless real-time querying  
 
@@ -20,6 +20,7 @@ This project implements a **Retrieval-Augmented Generation (RAG)** system levera
 | **Retrieval Models** | FAISS, BM25 (Okapi), Ensemble Retriever |
 | **Graph-Based RAG**  | NetworkX |
 | **Reranker**        | Sentence-Transformers (Cross-Encoder) |
+| **Speech-to-text**  | WhisperX |
 | **Frontend**        | Streamlit |
 | **Backend**         | PyTorch |
 
@@ -29,7 +30,8 @@ This project implements a **Retrieval-Augmented Generation (RAG)** system levera
 
 ✅ **Multi-Source Retrieval** – Combines FAISS (vector search) & BM25 (sparse retrieval)  
 ✅ **Graph-Based Knowledge Retrieval** – Uses a knowledge graph for contextual linking  
-✅ **DeepSeek-Powered Hypothetical Document Generation** – Enhances retrieval context  
+✅ **DeepSeek-Powered Hypothetical Document Generation** – Enhances retrieval context   
+✅  **Voice-Based Queries with WhisperX** which enables users to input queries through vice,which are then transcribed into text for processing\
 ✅ **Cross-Encoder Reranking** – Improves document relevance ranking  
 ✅ **User-Friendly Interface** – Built with Streamlit for an interactive experience  
 
@@ -45,7 +47,7 @@ cd RAG-DeepSeek
 
 ### **2️⃣ Create a virtual Environment**  
 ```bash
-conda create --name ragv2 python=3.12
+conda create --name ragv2 python=3.9
 conda activate ragv2
 ```
 
@@ -82,7 +84,7 @@ The **RAG (Retrieval-Augmented Generation) system** follows a structured process
 - This step ensures that the **most relevant results** appear first.  
 
 ### **5️⃣ Interactive Chat UI (Streamlit)**  
-- Users enter a query, and the system fetches **top-ranked documents**.  
+- Users can either enter a query or record their query, and the system fetches **top-ranked documents**.  
 - The retrieved information is displayed in a **conversational format**.  
 ---
 ### **📌 Example Workflow:**  
