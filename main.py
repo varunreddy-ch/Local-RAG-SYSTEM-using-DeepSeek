@@ -1,3 +1,4 @@
+import io
 import os
 import streamlit as st
 import torch
@@ -25,7 +26,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
+torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)] 
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -146,4 +147,67 @@ if (prompt := st.chat_input("How can I help you...")):
         response_placeholder.markdown(context)
         # Save assistant response
         st.session_state.messages.append({"role": "assistant", "content": context})
+
+
+# Voice Feature
+import whisperx
+import torchaudio
+
+audio_translator_model = whisperx.load_model("base.en", device=device, compute_type="int8")
+
+audio_value = st.audio_input("Record a query")
+
+if audio_value:
+    with st.spinner("Processing Audio...."):
+        # convert audio into tensor data
+        audio_stream = io.BytesIO(audio_value.getvalue()) 
+        waveform, sample_rate = torchaudio.load(audio_stream)
+
+         # Resample audio to 16kHz for WhisperX
+        waveform = torchaudio.functional.resample(waveform, orig_freq=sample_rate, new_freq=16000)
+        audio_array = waveform.squeeze().numpy()  # Convert to NumPy array
+
+        print("Transcribing audio...")
+        result = audio_translator_model.transcribe(audio_array)
+        prompt = result["segments"][0]["text"]
+        print(prompt)
+
+
+    # Make an history object
+    history = ""
+    for message in st.session_state.messages[-5:]:
+        history += message["content"]
+        history += "\n"
+
+    # Add user query into messages
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+    # Add the user propmt into UI
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    
+    # Generate response
+    with st.chat_message("assistant"):
+        response_placeholder = st.empty()
+        # st.write(prompt)
+        context = ""
+
+        try:
+            # st.write("processing")
+            docs = retrieve_documents(prompt, history)
+            for doc in docs:
+                print(doc)
+                print("\n\n\n")
+            # st.write("done processing")
+            
+            for i, doc in enumerate(docs):
+                source_no = f"Source {i+1}:"
+                context += f"**{source_no}** \n{doc.page_content}\n\n"
+        except Exception as e:
+            st.error(f"Retrieval error: {str(e)}")
+
+        response_placeholder.markdown(context)
+        # Save assistant response
+        st.session_state.messages.append({"role": "assistant", "content": context})
+        
 
